@@ -25,7 +25,8 @@ A web and mobile-based Learning Management System (LMS) for Kokkun Indonesia.
 ## Authors
 - NCS Dev Team
 
-Project Structure
+## Project Structure
+```
 ncs-kokkun-lms/
 │
 ├── backend/              # ASP.NET Core API
@@ -34,3 +35,4 @@ ncs-kokkun-lms/
 ├── docs/                 # Wireframes, planning, docs
 ├── .gitignore
 ├── README.md
+```
