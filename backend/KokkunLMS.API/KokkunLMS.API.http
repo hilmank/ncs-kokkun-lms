@@ -1,0 +1,6 @@
+@KokkunLMS.API_HostAddress = http://localhost:5108
+
+GET {{KokkunLMS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
