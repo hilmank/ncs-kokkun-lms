@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\KokkunLMS.Application\KokkunLMS.Application.csproj" />
     <ProjectReference Include="..\KokkunLMS.Infrastructure\KokkunLMS.Infrastructure.csproj" />
+    <ProjectReference Include="..\KokkunLMS.Shared\KokkunLMS.Shared.csproj" />
   </ItemGroup>
 
 </Project>
