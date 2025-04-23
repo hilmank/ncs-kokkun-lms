@@ -25,5 +25,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
             SET rolename = @Rolename
             WHERE roleid = @Roleid;
         ";
+
+        public const string GetById = $@"
+            {BaseSelect}
+            WHERE {Table}.roleid = @Id
+        ";
     }
 }

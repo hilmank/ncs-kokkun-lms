@@ -35,5 +35,17 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 feedback = @Feedback
             WHERE submissionid = @Submissionid;
         ";
+
+        public const string GetByAssignmentId = $@"
+            {BaseSelect}
+            WHERE {Table}.assignmentid = @AssignmentId
+        ";
+
+        public const string GradeSubmission = $@"
+            UPDATE {Table}
+            SET grade = @Grade,
+                feedback = @Feedback
+            WHERE submissionid = @SubmissionId;
+        ";
     }
 }

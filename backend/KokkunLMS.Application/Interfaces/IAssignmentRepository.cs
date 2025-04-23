@@ -1,6 +1,6 @@
 using KokkunLMS.Domain.Entities;
 
-namespace KokkunLMS.Domain.Interfaces
+namespace KokkunLMS.Application.Interfaces
 {
     public interface IAssignmentRepository
     {

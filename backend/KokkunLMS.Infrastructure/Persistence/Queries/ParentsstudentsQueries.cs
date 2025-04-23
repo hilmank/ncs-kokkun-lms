@@ -27,5 +27,11 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 studentid = @Studentid
             WHERE parentstudentid = @Parentstudentid;
         ";
+
+        public const string GetChildrenIdsByParentId = $@"
+            SELECT studentid
+            FROM {Table}
+            WHERE parentid = @ParentId;
+        ";
     }
 }

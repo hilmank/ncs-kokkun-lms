@@ -1,9 +1,35 @@
 using KokkunLMS.Infrastructure.Services;
-
+using KokkunLMS.Application.Interfaces;
+using KokkunLMS.Infrastructure.Persistence;
+using KokkunLMS.Infrastructure.Persistence.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register the Factory in DI
 builder.Services.AddSingleton<DapperConnectionFactory>();
+
+// ✅ Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+builder.Services.AddScoped<IAssignmentSubmissionRepository, AssignmentSubmissionRepository>();
+builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<IContentApprovalRepository, ContentApprovalRepository>();
+builder.Services.AddScoped<IDiscussionReplyRepository, DiscussionReplyRepository>();
+builder.Services.AddScoped<IDiscussionThreadRepository, DiscussionThreadRepository>();
+builder.Services.AddScoped<ILessonRepository, LessonRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IParentStudentRepository, ParentStudentRepository>();
+builder.Services.AddScoped<IPerformanceReportRepository, PerformanceReportRepository>();
+builder.Services.AddScoped<IQuizQuestionRepository, QuizQuestionRepository>();
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
+builder.Services.AddScoped<IQuizSubmissionRepository, QuizSubmissionRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
+builder.Services.AddScoped<ITeacherFeedbackRepository, TeacherFeedbackRepository>();
+
+// ✅ Unit of Work
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 // Add services to the container.
@@ -20,28 +46,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

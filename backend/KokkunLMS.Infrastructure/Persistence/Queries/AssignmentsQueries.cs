@@ -31,5 +31,9 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
             WHERE assignmentid = @AssignmentId;
         ";
 
+        public const string GetByCourseId = $@"
+            {BaseSelect}
+            WHERE {Table}.courseid = @CourseId
+        ";
     }
 }

@@ -33,5 +33,18 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 isread = @Isread
             WHERE messageid = @Messageid;
         ";
+
+        public const string GetMessagesBetween = $@"
+            {BaseSelect}
+            WHERE ({Table}.senderid = @SenderId AND {Table}.receiverid = @ReceiverId)
+            OR ({Table}.senderid = @ReceiverId AND {Table}.receiverid = @SenderId)
+            ORDER BY {Table}.sentat ASC
+        ";
+
+        public const string MarkAsRead = $@"
+            UPDATE {Table}
+            SET isread = TRUE
+            WHERE messageid = @MessageId;
+        ";
     }
 }

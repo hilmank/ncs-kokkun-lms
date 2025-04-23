@@ -35,5 +35,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 generatedat = @Generatedat
             WHERE reportid = @Reportid;
         ";
+
+        public const string GetByStudentId = $@"
+            {BaseSelect}
+            WHERE {Table}.studentid = @StudentId
+        ";
     }
 }

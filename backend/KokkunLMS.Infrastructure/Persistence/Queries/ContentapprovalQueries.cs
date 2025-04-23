@@ -37,5 +37,19 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 reviewedat = @Reviewedat
             WHERE approvalid = @Approvalid;
         ";
+
+        public const string Review = $@"
+            UPDATE {Table}
+            SET status = @Status,
+                reviewnotes = @ReviewNotes,
+                reviewedby = @ReviewedBy,
+                reviewedat = @ReviewedAt
+            WHERE approvalid = @ApprovalId;
+        ";
+
+        public const string GetPending = $@"
+            {BaseSelect}
+            WHERE {Table}.status = 'Pending'
+        ";
     }
 }

@@ -31,5 +31,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 createdat = @Createdat
             WHERE replyid = @Replyid;
         ";
+
+        public static readonly string GetByThreadId = $@"
+            {BaseSelect}
+            WHERE {Table}.threadid = @ThreadId
+        ";
     }
 }

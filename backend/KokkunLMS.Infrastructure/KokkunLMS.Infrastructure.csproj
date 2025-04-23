@@ -2,9 +2,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KokkunLMS.Domain\KokkunLMS.Domain.csproj" />
+    <ProjectReference Include="..\KokkunLMS.Application\KokkunLMS.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.4" />
     <PackageReference Include="Npgsql" Version="9.0.3" />
   </ItemGroup>

@@ -4,7 +4,7 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
     {
         public const string Table = "users";
 
-        public const string AllColumns = @"
+        public const string AllColumns = $@"
         {Table}.userid AS ""Userid"",
         {Table}.username AS ""Username"",
         {Table}.passwordhash AS ""Passwordhash"",

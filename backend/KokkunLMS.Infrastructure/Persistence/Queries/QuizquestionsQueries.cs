@@ -35,5 +35,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 points = @Points
             WHERE questionid = @Questionid;
         ";
+
+        public const string GetByQuizId = $@"
+            {BaseSelect}
+            WHERE {Table}.quizid = @QuizId
+        ";
     }
 }

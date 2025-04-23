@@ -33,5 +33,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 virtualclasslink = @Virtualclasslink
             WHERE scheduleid = @Scheduleid;
         ";
+
+        public const string GetByCourseId = $@"
+            {BaseSelect}
+            WHERE {Table}.courseid = @CourseId
+        ";
     }
 }

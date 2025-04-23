@@ -35,5 +35,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 createdat = @Createdat
             WHERE lessonid = @Lessonid;
         ";
+
+        public static readonly string GetByCourseId = $@"
+            {BaseSelect}
+            WHERE {Table}.courseid = @CourseId
+        ";
     }
 }

@@ -31,5 +31,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 createdat = @Createdat
             WHERE threadid = @Threadid;
         ";
+
+        public const string GetByCourseId = $@"
+            {BaseSelect}
+            WHERE {Table}.courseid = @CourseId
+        ";
     }
 }

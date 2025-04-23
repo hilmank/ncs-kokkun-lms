@@ -31,5 +31,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 submittedat = @Submittedat
             WHERE submissionid = @Submissionid;
         ";
+
+        public const string GetByStudentId = $@"
+            {BaseSelect}
+            WHERE {Table}.studentid = @StudentId
+        ";
     }
 }

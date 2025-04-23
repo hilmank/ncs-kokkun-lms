@@ -33,5 +33,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 checkedby = @Checkedby
             WHERE attendanceid = @Attendanceid;
         ";
+
+        public const string GetByStudentId = $@"
+            {BaseSelect}
+            WHERE {Table}.studentid = @StudentId
+        ";
     }
 }

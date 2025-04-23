@@ -35,5 +35,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 createdat = @Createdat
             WHERE feedbackid = @Feedbackid;
         ";
+
+        public static readonly string GetByTeacherId = $@"
+            {BaseSelect}
+            WHERE {Table}.teacherid = @TeacherId
+        ";
     }
 }

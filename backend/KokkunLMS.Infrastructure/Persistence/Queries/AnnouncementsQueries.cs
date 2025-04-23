@@ -28,5 +28,10 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
             SET courseid = @Courseid, title = @Title, content = @Content, postedby = @Postedby, postedat = @Postedat
             WHERE announcementid = @Announcementid;
         ";
+
+        public const string GetByCourseId = $@"
+            {BaseSelect}
+            WHERE {Table}.courseid = @CourseId
+            ";
     }
 }
