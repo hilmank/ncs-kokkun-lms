@@ -29,11 +29,11 @@ public class UserRepository : IUserRepository
         return await connection.QueryAsync<User>(sql);
     }
 
-    public async Task<User?> GetByEmailAsync(string email)
+    public async Task<User?> GetByUsernameOrEmailAsync(string usernameOrEmail)
     {
         using var connection = _connectionFactory.CreateConnection();
-        var sql = UsersQueries.BaseSelect + " WHERE users.email = @Email";
-        return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Email = email });
+        var sql = UsersQueries.BaseSelect + " WHERE users.username = @UsernameOrEmail OR users.email = @UsernameOrEmail";
+        return await connection.QueryFirstOrDefaultAsync<User>(sql, new { UsernameOrEmail = usernameOrEmail });
     }
 
     public async Task<User?> GetByIdAsync(int userId)

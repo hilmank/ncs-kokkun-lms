@@ -4,7 +4,7 @@ namespace KokkunLMS.Application.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User?> GetByEmailAsync(string email);
+        Task<User?> GetByUsernameOrEmailAsync(string usernameOrEmail);
         Task<User?> GetByIdAsync(int userId);
         Task<IEnumerable<User>> GetAllAsync();
         Task<int> CreateAsync(User user);

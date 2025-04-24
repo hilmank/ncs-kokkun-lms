@@ -2,6 +2,13 @@ using KokkunLMS.Infrastructure.Services;
 using KokkunLMS.Application.Interfaces;
 using KokkunLMS.Infrastructure.Persistence;
 using KokkunLMS.Infrastructure.Persistence.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Reflection;
+using FluentValidation;
+using MediatR;
+using KokkunLMS.Application.Commands.Auth;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register the Factory in DI
@@ -28,13 +35,82 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<ITeacherFeedbackRepository, TeacherFeedbackRepository>();
 
+
 // ✅ Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var jwtSettings = builder.Configuration.GetSection("Jwt");
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtSettings["Key"]!)
+            )
+        };
+    });
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+
+
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new()
+    {
+        Title = "KokkunLMS API",
+        Version = "v1",
+        Description = "API documentation for KokkunLMS system"
+    });
+
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+builder.Services.AddControllers();
+
+builder.Services.AddMediatR(typeof(SignInHandler).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(SignInCommand).Assembly);
+
+
 
 var app = builder.Build();
 
@@ -42,9 +118,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); //validate the token in request headers
+app.UseAuthorization();  //check role-based policies
 
+app.MapControllers();
 app.Run();
