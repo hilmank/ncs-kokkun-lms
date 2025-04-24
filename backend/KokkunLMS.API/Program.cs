@@ -9,6 +9,10 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using KokkunLMS.Application.Commands.Auth;
+using Serilog;
+using KokkunLMS.API.Middlewares;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Register the Factory in DI
@@ -110,6 +114,14 @@ builder.Services.AddControllers();
 builder.Services.AddMediatR(typeof(SignInHandler).Assembly);
 builder.Services.AddValidatorsFromAssembly(typeof(SignInCommand).Assembly);
 
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog(); // <-- plug Serilog into ASP.NET Core
 
 
 var app = builder.Build();
@@ -126,6 +138,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication(); //validate the token in request headers
 app.UseAuthorization();  //check role-based policies
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapControllers();
 app.Run();

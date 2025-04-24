@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FluentValidation;
+using KokkunLMS.Shared.DTOs;
 
 namespace KokkunLMS.API.Controllers;
 
@@ -18,37 +19,30 @@ public class AuthController : ControllerBase
         _mediator = mediator;
     }
 
-    /// <summary>
-    /// Sign in and receive a JWT token.
-    /// </summary>
     [HttpPost("signin")]
     [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResponse<string>), 200)]
+    [ProducesResponseType(typeof(ApiErrorResponse), 400)]
+    [ProducesResponseType(typeof(ApiErrorResponse), 401)]
     public async Task<IActionResult> SignInUser([FromBody] SignInCommand command)
     {
-        try
-        {
-            var token = await _mediator.Send(command);
-            return Ok(new { Token = token });
-        }
-        catch (UnauthorizedAccessException)
-        {
-            return Unauthorized("Invalid email or password.");
-        }
-        catch (ValidationException ex)
-        {
-            return BadRequest(new { Errors = ex.Errors.Select(e => e.ErrorMessage) });
-        }
+        var token = await _mediator.Send(command);
+        return Ok(ApiResponse<string>.Ok(token, "Signed in successfully."));
     }
 
-    /// <summary>
-    /// Sign out the current user.
-    /// </summary>
+
     [HttpPost("signout")]
     [Authorize]
+    [ProducesResponseType(typeof(ApiResponse<string>), 200)]
+    [ProducesResponseType(typeof(ApiErrorResponse), 401)]
     public async Task<IActionResult> SignOutUser()
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _mediator.Send(new SignOutCommand(userId));
-        return result ? Ok("Signed out successfully.") : BadRequest("Sign out failed.");
+
+        return result
+            ? Ok(ApiResponse<string>.WithMessage("Signed out successfully."))
+            : BadRequest(new ApiErrorResponse { Error = "Sign out failed." });
     }
+
 }
