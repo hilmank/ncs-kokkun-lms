@@ -18,7 +18,7 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
         public const string Insert = $@"
             INSERT INTO {Table} (parentid, studentid)
             VALUES (@Parentid, @Studentid)
-            RETURNING parentstudentid;
+            ON CONFLICT (parentid, studentid) DO NOTHING;;
         ";
 
         public const string Update = $@"

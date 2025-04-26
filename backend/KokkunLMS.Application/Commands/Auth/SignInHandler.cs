@@ -1,10 +1,11 @@
 using FluentValidation;
 using KokkunLMS.Application.Interfaces;
+using KokkunLMS.Shared.DTOs.User;
 using MediatR;
 
 namespace KokkunLMS.Application.Commands.Auth;
 
-public class SignInHandler : IRequestHandler<SignInCommand, string>
+public class SignInHandler : IRequestHandler<SignInCommand, SigninDto>
 {
     private readonly IUnitOfWork _uow;
     private readonly IJwtTokenService _jwt;
@@ -19,7 +20,7 @@ public class SignInHandler : IRequestHandler<SignInCommand, string>
         _validator = validator;
     }
 
-    public async Task<string> Handle(SignInCommand request, CancellationToken cancellationToken)
+    public async Task<SigninDto> Handle(SignInCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
@@ -28,7 +29,20 @@ public class SignInHandler : IRequestHandler<SignInCommand, string>
         var user = await _uow.Users.GetByUsernameOrEmailAsync(request.UsernameOrEmail);
         if (user is null || !_hasher.Verify(user.PasswordHash, request.Password))
             throw new UnauthorizedAccessException("Invalid credentials.");
+        var (accessToken, tokenExpirationMinutes) = _jwt.GenerateAccessToken(user);
+        var newRefreshToken = _jwt.GenerateRefreshToken();
 
-        return _jwt.GenerateToken(user);
+        SigninDto retVal = new()
+        {
+            Token = accessToken,
+            RefreshToken = newRefreshToken,
+            RefreshTokenExpiryMinutes = tokenExpirationMinutes
+        };
+        // Generate new JWT
+        user.RefreshToken = newRefreshToken;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddMinutes(tokenExpirationMinutes);
+        user.LastLogin = DateTime.UtcNow;
+        _ = _uow.Users.UpdateProfileAsync(user);
+        return retVal;
     }
 }

@@ -13,7 +13,13 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
         {Table}.phonenumber AS ""Phonenumber"",
         {Table}.profilepicture AS ""Profilepicture"",
         {Table}.roleid AS ""Roleid"",
-        {Table}.createdat AS ""Createdat""
+        {Table}.isactive AS ""IsActive"",
+        {Table}.isdeleted AS ""IsDeleted"",
+        {Table}.createdat AS ""Createdat"",
+        {Table}.refreshtoken AS ""Refreshtoken"",
+        {Table}.refreshtokenexpirytime AS ""Refreshtokenexpirytime"",
+        {Table}.lastlogin AS ""Lastlogin"",
+        {Table}.lastpasswordchange AS ""Lastpasswordchange""
         ";
 
         public const string BaseSelect = $@"
@@ -22,8 +28,8 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
         ";
 
         public const string Insert = $@"
-            INSERT INTO {Table} (username, passwordhash, fullname, email, phonenumber, profilepicture, roleid, createdat)
-            VALUES (@Username, @Passwordhash, @Fullname, @Email, @Phonenumber, @Profilepicture, @Roleid, @Createdat)
+            INSERT INTO {Table} (username, passwordhash, fullname, email, phonenumber, profilepicture, roleid, createdat, isactive, isdeleted, refreshtoken, refreshtokenexpirytime, lastlogin, lastpasswordchange)
+            VALUES (@Username, @Passwordhash, @Fullname, @Email, @Phonenumber, @Profilepicture, @Roleid, @Createdat, @IsActive, @IsDeleted, @Refreshtoken, @Refreshtokenexpirytime, @Lastlogin, @Lastpasswordchange)
             RETURNING userid;
         ";
 
@@ -36,7 +42,13 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 phonenumber = @Phonenumber,
                 profilepicture = @Profilepicture,
                 roleid = @Roleid,
-                createdat = @Createdat
+                isactive = @IsActive,
+                isdeleted = @IsDeleted,
+                createdat = @Createdat,
+                refreshtoken = @Refreshtoken,
+                refreshtokenexpirytime = @Refreshtokenexpirytime,
+                lastlogin = @Lastlogin,
+                lastpasswordchange = @Lastpasswordchange
             WHERE userid = @Userid;
         ";
     }

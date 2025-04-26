@@ -11,6 +11,12 @@ namespace KokkunLMS.Domain.Entities
         public string? ProfilePicture { get; set; }
         public int RoleId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
+        public DateTime? LastLogin { get; set; }
+        public DateTime? LastPasswordChange { get; set; }
 
         public Role? Role { get; set; }
 

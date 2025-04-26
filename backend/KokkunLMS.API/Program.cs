@@ -11,6 +11,8 @@ using MediatR;
 using KokkunLMS.Application.Commands.Auth;
 using Serilog;
 using KokkunLMS.API.Middlewares;
+using KokkunLMS.Shared.DTOs;
+using System.Text.Json;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,20 +52,48 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         var jwtSettings = builder.Configuration.GetSection("Jwt");
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-
             ValidIssuer = jwtSettings["Issuer"],
             ValidAudience = jwtSettings["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtSettings["Key"]!)
             )
         };
+
+        // ✅ Handle 401 here
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = context =>
+            {
+                context.HandleResponse(); // Suppress default
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+
+                var response = new ApiErrorResponse
+                {
+                    Error = "Unauthorized access.",
+                    Details = new List<ApiErrorDetail>
+                    {
+                        new() { Field = "Authorization", Message = "You are not authorized to access this resource." }
+                    }
+                };
+
+                var json = JsonSerializer.Serialize(response, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+                return context.Response.WriteAsync(json);
+            }
+        };
     });
+
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 
@@ -123,6 +153,7 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog(); // <-- plug Serilog into ASP.NET Core
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

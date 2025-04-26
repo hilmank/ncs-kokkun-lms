@@ -11,4 +11,6 @@ public class UserDto
     public int RoleId { get; set; }
     public string RoleName { get; set; } = null!; // Optional
     public string CreatedAt { get; set; } = null!;
+    public bool IsActive { get; set; }
+    public bool IsDeleted { get; set; }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FluentValidation;
 using KokkunLMS.Shared.DTOs;
+using KokkunLMS.Shared.DTOs.User;
 
 namespace KokkunLMS.API.Controllers;
 
@@ -26,8 +27,8 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(ApiErrorResponse), 401)]
     public async Task<IActionResult> SignInUser([FromBody] SignInCommand command)
     {
-        var token = await _mediator.Send(command);
-        return Ok(ApiResponse<string>.Ok(token, "Signed in successfully."));
+        var result = await _mediator.Send(command);
+        return Ok(ApiResponse<SigninDto>.Ok(result, "Signed in successfully."));
     }
 
 
@@ -44,5 +45,11 @@ public class AuthController : ControllerBase
             ? Ok(ApiResponse<string>.WithMessage("Signed out successfully."))
             : BadRequest(new ApiErrorResponse { Error = "Sign out failed." });
     }
-
+    [HttpPost("refresh-token")]
+    [AllowAnonymous]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return Ok(ApiResponse<SigninDto>.Ok(result, "Token refreshed successfully."));
+    }
 }

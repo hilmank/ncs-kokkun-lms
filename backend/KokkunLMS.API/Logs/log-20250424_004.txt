@@ -38,3 +38,8 @@ Npgsql.NpgsqlException (0x80004005): Failed to connect to 127.0.0.1:543
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at KokkunLMS.API.Middlewares.ErrorHandlingMiddleware.Invoke(HttpContext context) in C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API\Middlewares\ErrorHandlingMiddleware.cs:line 26
+2025-04-24 17:33:30.068 +07:00 [INF] Now listening on: http://localhost:5108
+2025-04-24 17:33:30.128 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-24 17:33:30.128 +07:00 [INF] Hosting environment: Development
+2025-04-24 17:33:30.129 +07:00 [INF] Content root path: C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API
+2025-04-24 17:33:53.550 +07:00 [WRN] Failed to determine the https port for redirect.

@@ -1,0 +1,69 @@
+2025-04-25 11:06:09.428 +07:00 [INF] Now listening on: http://localhost:5108
+2025-04-25 11:06:09.616 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-25 11:06:09.618 +07:00 [INF] Hosting environment: Development
+2025-04-25 11:06:09.619 +07:00 [INF] Content root path: C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API
+2025-04-25 11:07:01.931 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-04-25 11:07:40.950 +07:00 [ERR] Unhandled exception occurred.
+Npgsql.PostgresException (0x80004005): 42601: syntax error at or near "{"
+
+POSITION: 511
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.MultiMapAsync[TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn](IDbConnection cnn, CommandDefinition command, Delegate map, String splitOn) in /_/Dapper/SqlMapper.Async.cs:line 940
+   at KokkunLMS.Infrastructure.Persistence.Repositories.UserRepository.GetByUsernameOrEmailAsync(String usernameOrEmail) in C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.Infrastructure\Persistence\Repositories\UserRepository .cs:line 59
+   at KokkunLMS.Application.Commands.Auth.SignInHandler.Handle(SignInCommand request, CancellationToken cancellationToken) in C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.Application\Commands\Auth\SignInHandler.cs:line 28
+   at MediatR.Pipeline.RequestExceptionProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestExceptionProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestExceptionActionProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestExceptionActionProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestPostProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestPreProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at KokkunLMS.API.Controllers.AuthController.SignInUser(SignInCommand command) in C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API\Controllers\AuthController.cs:line 29
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at KokkunLMS.API.Middlewares.ErrorHandlingMiddleware.Invoke(HttpContext context) in C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API\Middlewares\ErrorHandlingMiddleware.cs:line 27
+  Exception data:
+    Severity: ERROR
+    SqlState: 42601
+    MessageText: syntax error at or near "{"
+    Position: 511
+    File: scan.l
+    Line: 1248
+    Routine: scanner_yyerror
+2025-04-25 11:10:22.401 +07:00 [INF] Now listening on: http://localhost:5108
+2025-04-25 11:10:22.441 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-25 11:10:22.441 +07:00 [INF] Hosting environment: Development
+2025-04-25 11:10:22.441 +07:00 [INF] Content root path: C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API
+2025-04-25 11:10:28.448 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-04-25 11:11:49.591 +07:00 [ERR] Unhandled exception occurred.
+KokkunLMS.Application.Exceptions.ConflictException: Email is already registered.
+   at KokkunLMS.Application.Commands.Users.CreateUserHandler.Handle(CreateUserCommand request, CancellationToken cancellationToken) in C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.Application\Commands\Users\CreateUserHandler.cs:line 30
+   at MediatR.Pipeline.RequestExceptionProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestExceptionProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestExceptionActionProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestExceptionActionProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestPostProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at MediatR.Pipeline.RequestPreProcessorBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken)
+   at KokkunLMS.API.Controllers.UsersController.CreateUser(CreateUserCommand command) in C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API\Controllers\UsersController.cs:line 30
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at KokkunLMS.API.Middlewares.ErrorHandlingMiddleware.Invoke(HttpContext context) in C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API\Middlewares\ErrorHandlingMiddleware.cs:line 27

@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using FluentValidation;
+using KokkunLMS.Application.Exceptions;
 using KokkunLMS.Shared.DTOs;
 using Serilog;
 
@@ -79,7 +80,24 @@ public class ErrorHandlingMiddleware
                         ? new List<ApiErrorDetail> { new() { Message = argEx.Message } }
                         : null
                 }),
-
+            NotFoundException nfEx => (
+                HttpStatusCode.NotFound,
+                new ApiErrorResponse
+                {
+                    Error = nfEx.Message,
+                    Details = isDevelopment
+                        ? new List<ApiErrorDetail> { new() { Message = nfEx.Message } }
+                        : null
+                }),
+            ConflictException cfEx => (
+                HttpStatusCode.Conflict,
+                new ApiErrorResponse
+                {
+                    Error = cfEx.Message,
+                    Details = isDevelopment
+                        ? new List<ApiErrorDetail> { new() { Message = cfEx.Message } }
+                        : null
+                }),
             _ => (
                 HttpStatusCode.InternalServerError,
                 new ApiErrorResponse

@@ -1,0 +1,10 @@
+2025-04-26 13:51:24.715 +07:00 [INF] Now listening on: http://localhost:5108
+2025-04-26 13:51:24.752 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-26 13:51:24.753 +07:00 [INF] Hosting environment: Development
+2025-04-26 13:51:24.753 +07:00 [INF] Content root path: C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API
+2025-04-26 13:51:29.552 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-04-26 13:55:02.262 +07:00 [INF] Now listening on: http://localhost:5108
+2025-04-26 13:55:02.295 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-04-26 13:55:02.296 +07:00 [INF] Hosting environment: Development
+2025-04-26 13:55:02.296 +07:00 [INF] Content root path: C:\Users\Irma Dewiyana\source\repos\hilmank\ncs-kokkun-lms\backend\KokkunLMS.API
+2025-04-26 13:55:06.638 +07:00 [WRN] Failed to determine the https port for redirect.

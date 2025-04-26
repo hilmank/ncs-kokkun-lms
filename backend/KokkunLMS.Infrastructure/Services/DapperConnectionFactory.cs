@@ -18,5 +18,12 @@ namespace KokkunLMS.Infrastructure.Services
         {
             return new NpgsqlConnection(_connectionString);
         }
+
+        public IDbConnection CreateOpenConnection()
+        {
+            var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            return connection;
+        }
     }
 }

@@ -9,5 +9,9 @@ namespace KokkunLMS.Application.Interfaces
         Task<IEnumerable<User>> GetAllAsync();
         Task<int> CreateAsync(User user);
         Task<bool> UpdateProfileAsync(User user);
+
+        Task<int> RegisterParentWithStudentAsync(User parent, User student);
+        Task<int> AddChildForParentAsync(int parentId, User student);
+        Task<User?> GetByRefreshTokenAsync(string refreshToken);
     }
 }

@@ -23,4 +23,13 @@ public class ParentStudentRepository : IParentStudentRepository
             new { ParentId = parentId }
         );
     }
+    public async Task LinkAsync(int parentId, int studentId)
+    {
+        using var connection = _connectionFactory.CreateConnection();
+        await connection.ExecuteAsync(
+            ParentsstudentsQueries.Insert, // 
+            new { Parentid = parentId, Studentid = studentId }
+        );
+    }
+
 }
