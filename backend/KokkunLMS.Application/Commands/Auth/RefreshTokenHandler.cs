@@ -32,7 +32,7 @@ public class RefreshTokenHandler : IRequestHandler<RefreshTokenCommand, SigninDt
 
         // Validate access token
         var principal = _jwt.GetPrincipalFromExpiredToken(request.Token);
-        if (principal == null || !principal.Identity.IsAuthenticated)
+        if (principal?.Identity == null || !principal.Identity.IsAuthenticated)
             throw new UnauthorizedAccessException("Invalid access token");
 
         // Ensure token belongs to the same user
