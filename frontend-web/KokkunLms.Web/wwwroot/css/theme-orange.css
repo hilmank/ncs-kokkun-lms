@@ -1,0 +1,69 @@
+/* theme-orange.css */
+
+/* COLOR VARIABLES */
+:root {
+    --background-color: #3e2f1c;
+    /* Dark brownish background */
+    --text-color: white;
+    --highlight-color: #ffa500;
+    /* Orange */
+    --primary-button-color: #ff8c00;
+    /* Dark orange */
+    --primary-button-hover: #e67300;
+    /* Darker orange on hover */
+    --input-icon-color: #3e2f1c;
+    /* Match background for consistency */
+    --input-focus-border: #ffa500;
+    /* Orange */
+    --separator-color: #ffa500;
+    /* Orange */
+}
+
+/* GLOBAL */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    color: var(--highlight-color);
+}
+
+.btn-primary {
+    border-radius: 8px;
+    background-color: var(--primary-button-color);
+    border-color: var(--primary-button-color);
+    font-weight: bold;
+    height: 48px;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-button-hover);
+    border-color: var(--primary-button-hover);
+}
+
+.input-group-text i {
+    color: var(--input-icon-color);
+}
+
+.form-control:focus {
+    border-color: var(--input-focus-border);
+    box-shadow: none;
+}
+
+/* Separator */
+@media (min-width: 768px) {
+    .col-md-6:first-child {
+        border-right: 3px solid var(--separator-color);
+        padding-right: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .col-md-6:last-child {
+        padding-left: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}

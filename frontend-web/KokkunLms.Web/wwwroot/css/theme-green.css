@@ -1,0 +1,66 @@
+/* theme-green.css */
+
+/* COLOR VARIABLES */
+:root {
+    --background-color: #1b4332;
+    /* Dark Green */
+    --text-color: white;
+    --highlight-color: #80ed99;
+    /* Light Green */
+    --primary-button-color: #2d6a4f;
+    /* Medium Green */
+    --primary-button-hover: #1d4d3a;
+    /* Darker Green */
+    --input-icon-color: #1b4332;
+    --input-focus-border: #80ed99;
+    --separator-color: #80ed99;
+}
+
+/* GLOBAL */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    color: var(--highlight-color);
+}
+
+.btn-primary {
+    border-radius: 8px;
+    background-color: var(--primary-button-color);
+    border-color: var(--primary-button-color);
+    font-weight: bold;
+    height: 48px;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-button-hover);
+    border-color: var(--primary-button-hover);
+}
+
+.input-group-text i {
+    color: var(--input-icon-color);
+}
+
+.form-control:focus {
+    border-color: var(--input-focus-border);
+    box-shadow: none;
+}
+
+/* Separator */
+@media (min-width: 768px) {
+    .col-md-6:first-child {
+        border-right: 3px solid var(--separator-color);
+        padding-right: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .col-md-6:last-child {
+        padding-left: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
