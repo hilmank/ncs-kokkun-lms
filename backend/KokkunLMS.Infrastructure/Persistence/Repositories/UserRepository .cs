@@ -106,22 +106,23 @@ public class UserRepository : IUserRepository
         return affectedRows > 0;
     }
 
-    public async Task<int> RegisterParentWithStudentAsync(User parent, User student)
+    public async Task<int> RegisterParentWithStudentAsync(User userParent, User userStudent, Student student)
     {
         using var connection = _connectionFactory.CreateOpenConnection();
         using var transaction = connection.BeginTransaction();
 
         try
         {
-            var parentId = await connection.ExecuteScalarAsync<int>(UsersQueries.Insert, parent, transaction);
-            var studentId = await connection.ExecuteScalarAsync<int>(UsersQueries.Insert, student, transaction);
+            var parentId = await connection.ExecuteScalarAsync<int>(UsersQueries.Insert, userParent, transaction);
+            var studentId = await connection.ExecuteScalarAsync<int>(UsersQueries.Insert, userStudent, transaction);
 
             await connection.ExecuteAsync(ParentsstudentsQueries.Insert, new
             {
                 Parentid = parentId,
                 Studentid = studentId
             }, transaction);
-
+            student.UserId = studentId;
+            await connection.ExecuteAsync(StudentsQueries.Insert, student, transaction);
             transaction.Commit();
             return parentId;
         }

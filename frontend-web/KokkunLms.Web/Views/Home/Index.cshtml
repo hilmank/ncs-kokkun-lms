@@ -15,7 +15,27 @@
 
         @if (ViewBag.Error != null)
         {
-            <div class="alert alert-danger">@ViewBag.Error</div>
+            <div class="alert alert-danger">
+                @ViewBag.Error
+
+                @if (ViewBag.ErrorDetails != null)
+                {
+                    <button type="button" class="btn btn-sm btn-light ms-2" onclick="toggleErrorDetails()">View Details</button>
+                }
+            </div>
+
+            @if (ViewBag.ErrorDetails != null)
+            {
+                <div id="errorDetails" class="alert alert-warning mt-2" style="display:none;">
+                    <ul>
+                        @foreach (var detail in
+                                        (List<KokkunLms.Web.Models.ApiResponses.ApiErrorResponseDetails>)ViewBag.ErrorDetails)
+                        {
+                            <li><strong>@detail.Field</strong>: @detail.Message</li>
+                        }
+                    </ul>
+                </div>
+            }
         }
 
         <form method="post" asp-action="SignIn">
@@ -46,3 +66,13 @@
         </form>
     </div>
 </div>
+<script>
+    function toggleErrorDetails() {
+        var detailDiv = document.getElementById("errorDetails");
+        if (detailDiv.style.display === "none") {
+            detailDiv.style.display = "block";
+        } else {
+            detailDiv.style.display = "none";
+        }
+    }
+</script>

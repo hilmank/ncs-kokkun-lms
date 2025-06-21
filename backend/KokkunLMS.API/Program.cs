@@ -8,11 +8,12 @@ using System.Text;
 using System.Reflection;
 using FluentValidation;
 using MediatR;
-using KokkunLMS.Application.Commands.Auth;
 using Serilog;
 using KokkunLMS.API.Middlewares;
 using KokkunLMS.Shared.DTOs;
 using System.Text.Json;
+using KokkunLMS.Application.Features.Auth.Commands;
+using KokkunLMS.Application.Features.Auth.Handlers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,8 +41,9 @@ builder.Services.AddScoped<IQuizSubmissionRepository, QuizSubmissionRepository>(
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<ITeacherFeedbackRepository, TeacherFeedbackRepository>();
-
-
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IGenderRepository, GenderRepository>();
+builder.Services.AddScoped<ICourseClassRepository, CourseClassRepository>();
 // ✅ Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

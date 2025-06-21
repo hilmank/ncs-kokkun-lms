@@ -1,8 +1,7 @@
 using System.Security.Claims;
-using KokkunLMS.Application.Commands.Users;
-using KokkunLMS.Application.Queries.Users;
+using KokkunLMS.Application.Features.Users.Commands;
+using KokkunLMS.Application.Features.Users.Queries;
 using KokkunLMS.Shared.DTOs;
-using KokkunLMS.Shared.DTOs.User;
 using KokkunLMS.Shared.DTOs.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -37,20 +36,6 @@ public class UsersController : ControllerBase
     {
         var userId = await _mediator.Send(command);
         return Ok(ApiResponse<int>.Ok(userId, "User created successfully."));
-    }
-
-    /// <summary>
-    /// Public user registration (Parent + Student).
-    /// </summary>
-    [HttpPost("register")]
-    [AllowAnonymous]
-    [ProducesResponseType(typeof(ApiResponse<int>), 200)]
-    [ProducesResponseType(typeof(ApiErrorResponse), 400)]
-    [ProducesResponseType(typeof(ApiErrorResponse), 409)]
-    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand command)
-    {
-        var parentId = await _mediator.Send(command);
-        return Ok(ApiResponse<int>.Ok(parentId, "Parent and student registered successfully."));
     }
 
     /// <summary>

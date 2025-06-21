@@ -23,7 +23,9 @@ public class UnitOfWork : IUnitOfWork
     public IRoleRepository Roles { get; }
     public IScheduleRepository Schedules { get; }
     public ITeacherFeedbackRepository TeacherFeedback { get; }
-
+    public IStudentRepository Students { get; }
+    public IGenderRepository Genders { get; }
+    public ICourseClassRepository CourseClasses { get; }
     public UnitOfWork(
         IUserRepository users,
         ICourseRepository courses,
@@ -43,7 +45,10 @@ public class UnitOfWork : IUnitOfWork
         IQuizSubmissionRepository quizSubmissions,
         IRoleRepository roles,
         IScheduleRepository schedules,
-        ITeacherFeedbackRepository teacherFeedback
+        ITeacherFeedbackRepository teacherFeedback,
+        IStudentRepository students,
+        IGenderRepository genders,
+        ICourseClassRepository courseClasses
     )
     {
         Users = users;
@@ -65,6 +70,9 @@ public class UnitOfWork : IUnitOfWork
         Roles = roles;
         Schedules = schedules;
         TeacherFeedback = teacherFeedback;
+        Students = students;
+        Genders = genders;
+        CourseClasses = courseClasses;
     }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

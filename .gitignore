@@ -1,5 +1,6 @@
 bin/
 obj/
+Logs/
 *.user
 *.suo
 *.userosscache
@@ -14,4 +15,3 @@ appsettings.Development.json
 pubspec.lock
 *.iml
 .idea/
-

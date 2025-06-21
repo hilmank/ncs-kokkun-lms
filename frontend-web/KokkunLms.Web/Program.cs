@@ -1,8 +1,20 @@
+using KokkunLms.Web.Models.Settings;
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Session
+builder.Services.AddSession();
+
+// read appsettings.json
+builder.Services.Configure<ThemeSettings>(builder.Configuration.GetSection("ThemeSettings"));
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+
+// Make ThemeSettings directly available for view injection
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<ThemeSettings>>().Value);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,5 +37,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-
+app.UseSession();
 app.Run();

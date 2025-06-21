@@ -1,11 +1,10 @@
-using KokkunLMS.Application.Commands.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using FluentValidation;
 using KokkunLMS.Shared.DTOs;
 using KokkunLMS.Shared.DTOs.User;
+using KokkunLMS.Application.Features.Auth.Commands;
 
 namespace KokkunLMS.API.Controllers;
 

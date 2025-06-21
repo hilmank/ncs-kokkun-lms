@@ -21,6 +21,8 @@ public interface IUnitOfWork
     IScheduleRepository Schedules { get; }
     ITeacherFeedbackRepository TeacherFeedback { get; }
     IUserRepository Users { get; }
-
+    IStudentRepository Students { get; }
+    IGenderRepository Genders { get; }
+    ICourseClassRepository CourseClasses { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

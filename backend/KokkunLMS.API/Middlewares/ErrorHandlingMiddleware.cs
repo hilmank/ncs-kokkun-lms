@@ -3,21 +3,24 @@ using System.Text.Json;
 using FluentValidation;
 using KokkunLMS.Application.Exceptions;
 using KokkunLMS.Shared.DTOs;
-using Serilog;
 
 namespace KokkunLMS.API.Middlewares;
-
 public class ErrorHandlingMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ErrorHandlingMiddleware> _logger;
-    private readonly IHostEnvironment _env;
+    private readonly bool _showExceptionDetails;
 
-    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger, IHostEnvironment env)
+    public ErrorHandlingMiddleware(
+        RequestDelegate next,
+        ILogger<ErrorHandlingMiddleware> logger,
+        IConfiguration configuration)
     {
         _next = next;
         _logger = logger;
-        _env = env;
+        _showExceptionDetails = configuration
+            .GetSection("ErrorHandling")
+            .GetValue<bool>("ShowExceptionDetails");
     }
 
     public async Task Invoke(HttpContext context)
@@ -32,7 +35,7 @@ public class ErrorHandlingMiddleware
 
             context.Response.ContentType = "application/json";
 
-            var (statusCode, response) = HandleException(ex, _env.IsDevelopment());
+            var (statusCode, response) = HandleException(ex, _showExceptionDetails);
 
             context.Response.StatusCode = (int)statusCode;
 
@@ -45,7 +48,7 @@ public class ErrorHandlingMiddleware
         }
     }
 
-    private static (HttpStatusCode, ApiErrorResponse) HandleException(Exception ex, bool isDevelopment)
+    private static (HttpStatusCode, ApiErrorResponse) HandleException(Exception ex, bool showDetails)
     {
         return ex switch
         {
@@ -66,7 +69,7 @@ public class ErrorHandlingMiddleware
                 new ApiErrorResponse
                 {
                     Error = "Unauthorized access.",
-                    Details = isDevelopment
+                    Details = showDetails
                         ? new List<ApiErrorDetail> { new() { Message = ex.Message } }
                         : null
                 }),
@@ -76,7 +79,7 @@ public class ErrorHandlingMiddleware
                 new ApiErrorResponse
                 {
                     Error = argEx.Message,
-                    Details = isDevelopment
+                    Details = showDetails
                         ? new List<ApiErrorDetail> { new() { Message = argEx.Message } }
                         : null
                 }),
@@ -85,7 +88,7 @@ public class ErrorHandlingMiddleware
                 new ApiErrorResponse
                 {
                     Error = nfEx.Message,
-                    Details = isDevelopment
+                    Details = showDetails
                         ? new List<ApiErrorDetail> { new() { Message = nfEx.Message } }
                         : null
                 }),
@@ -94,7 +97,7 @@ public class ErrorHandlingMiddleware
                 new ApiErrorResponse
                 {
                     Error = cfEx.Message,
-                    Details = isDevelopment
+                    Details = showDetails
                         ? new List<ApiErrorDetail> { new() { Message = cfEx.Message } }
                         : null
                 }),
@@ -103,7 +106,7 @@ public class ErrorHandlingMiddleware
                 new ApiErrorResponse
                 {
                     Error = "Internal server error.",
-                    Details = isDevelopment
+                    Details = showDetails
                         ? new List<ApiErrorDetail> { new() { Message = ex.Message } }
                         : null
                 })
