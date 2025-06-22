@@ -1,7 +1,7 @@
 using AutoMapper;
 using KokkunLMS.Application.Features.Users.Queries;
 using KokkunLMS.Application.Interfaces;
-using KokkunLMS.Shared.DTOs.Users;
+using KokkunLMS.Shared.DTOs.User;
 using MediatR;
 
 namespace KokkunLMS.Application.Queries.Users;

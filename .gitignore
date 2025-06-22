@@ -1,6 +1,7 @@
 bin/
 obj/
 Logs/
+/backend/KokkunLMS.API/Logs/*
 *.user
 *.suo
 *.userosscache
@@ -15,3 +16,10 @@ appsettings.Development.json
 pubspec.lock
 *.iml
 .idea/
+
+# Ignore all uploaded profile pictures
+/backend/KokkunLMS.API/wwwroot/uploads/profile/*
+
+# Except default profile picture
+!/backend/KokkunLMS.API/wwwroot/uploads/profile/no-photo.jpg
+

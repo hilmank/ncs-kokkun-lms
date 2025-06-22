@@ -1,5 +1,5 @@
 using KokkunLMS.Shared.DTOs;
-using KokkunLMS.Shared.DTOs.Users;
+using KokkunLMS.Shared.DTOs.User;
 using MediatR;
 
 namespace KokkunLMS.Application.Features.Users.Queries;

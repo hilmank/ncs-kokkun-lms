@@ -17,6 +17,8 @@ namespace KokkunLMS.Domain.Entities
         public DateTime? RefreshTokenExpiryTime { get; set; }
         public DateTime? LastLogin { get; set; }
         public DateTime? LastPasswordChange { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public int? UpdatedBy { get; set; }
 
         public Role? Role { get; set; }
 

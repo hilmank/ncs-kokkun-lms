@@ -7,8 +7,6 @@ public class UpdateUserProfileValidator : AbstractValidator<UpdateUserProfileCom
 {
     public UpdateUserProfileValidator()
     {
-        RuleFor(x => x.UserId).GreaterThan(0);
-
         RuleFor(x => x.FullName)
             .MinimumLength(3)
             .MaximumLength(100)

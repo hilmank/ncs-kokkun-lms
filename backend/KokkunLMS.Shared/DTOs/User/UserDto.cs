@@ -1,4 +1,4 @@
-namespace KokkunLMS.Shared.DTOs.Users;
+namespace KokkunLMS.Shared.DTOs.User;
 
 public class UserDto
 {

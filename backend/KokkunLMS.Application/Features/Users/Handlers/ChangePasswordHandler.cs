@@ -1,21 +1,28 @@
 using FluentValidation;
 using KokkunLMS.Application.Exceptions;
+using KokkunLMS.Application.Features.Users.Commands;
 using KokkunLMS.Application.Interfaces;
 using MediatR;
 
-namespace KokkunLMS.Application.Features.Users.Commands;
+namespace KokkunLMS.Application.Features.Users.Handlers;
 
 public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, bool>
 {
     private readonly IUnitOfWork _uow;
     private readonly IValidator<ChangePasswordCommand> _validator;
     private readonly IPasswordHasher _hasher;
+    private readonly ICurrentUserService _currentUser;
 
-    public ChangePasswordHandler(IUnitOfWork uow, IValidator<ChangePasswordCommand> validator, IPasswordHasher hasher)
+    public ChangePasswordHandler(
+        IUnitOfWork uow,
+        IValidator<ChangePasswordCommand> validator,
+        IPasswordHasher hasher,
+        ICurrentUserService currentUser)
     {
         _uow = uow;
         _validator = validator;
         _hasher = hasher;
+        _currentUser = currentUser;
     }
 
     public async Task<bool> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
@@ -24,7 +31,10 @@ public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, bool
         if (!validation.IsValid)
             throw new ValidationException(validation.Errors);
 
-        var user = await _uow.Users.GetByIdAsync(request.UserId);
+        if (!_currentUser.UserId.HasValue)
+            throw new UnauthorizedAccessException("User not authenticated.");
+
+        var user = await _uow.Users.GetByIdAsync(_currentUser.UserId.Value);
         if (user is null)
             throw new NotFoundException("User not found.");
 

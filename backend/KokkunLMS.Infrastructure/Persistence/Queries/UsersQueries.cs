@@ -19,7 +19,9 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
         {Table}.refreshtoken AS ""Refreshtoken"",
         {Table}.refreshtokenexpirytime AS ""Refreshtokenexpirytime"",
         {Table}.lastlogin AS ""Lastlogin"",
-        {Table}.lastpasswordchange AS ""Lastpasswordchange""
+        {Table}.lastpasswordchange AS ""Lastpasswordchange"",
+        {Table}.updatedat AS ""Updatedat"",
+        {Table}.updatedby AS ""UpdatedBy""
         ";
 
         public const string BaseSelect = $@"
@@ -48,7 +50,9 @@ namespace KokkunLMS.Infrastructure.Persistence.Queries
                 refreshtoken = @Refreshtoken,
                 refreshtokenexpirytime = @Refreshtokenexpirytime,
                 lastlogin = @Lastlogin,
-                lastpasswordchange = @Lastpasswordchange
+                lastpasswordchange = @Lastpasswordchange,
+                updatedat = @Updatedat,
+                updatedby = @UpdatedBy
             WHERE userid = @Userid;
         ";
     }

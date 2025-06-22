@@ -11,12 +11,18 @@ public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, bool>
     private readonly IUnitOfWork _uow;
     private readonly IValidator<ResetPasswordCommand> _validator;
     private readonly IPasswordHasher _hasher;
+    private readonly ICurrentUserService _currentUser;
 
-    public ResetPasswordHandler(IUnitOfWork uow, IValidator<ResetPasswordCommand> validator, IPasswordHasher hasher)
+    public ResetPasswordHandler(
+        IUnitOfWork uow,
+        IValidator<ResetPasswordCommand> validator,
+        IPasswordHasher hasher,
+        ICurrentUserService currentUser)
     {
         _uow = uow;
         _validator = validator;
         _hasher = hasher;
+        _currentUser = currentUser;
     }
 
     public async Task<bool> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
@@ -30,7 +36,9 @@ public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, bool>
             throw new NotFoundException("User not found.");
 
         user.PasswordHash = _hasher.Hash(request.NewPassword);
-
+        user.LastPasswordChange = DateTime.UtcNow;
+        user.UpdatedAt = user.LastPasswordChange;
+        user.UpdatedBy = _currentUser.UserId;
         return await _uow.Users.UpdateProfileAsync(user);
     }
 }

@@ -44,6 +44,13 @@ builder.Services.AddScoped<ITeacherFeedbackRepository, TeacherFeedbackRepository
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IGenderRepository, GenderRepository>();
 builder.Services.AddScoped<ICourseClassRepository, CourseClassRepository>();
+
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+
 // ✅ Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -174,6 +181,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication(); //validate the token in request headers
 app.UseAuthorization();  //check role-based policies
+
+app.UseStaticFiles();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 

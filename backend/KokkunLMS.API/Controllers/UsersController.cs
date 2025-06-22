@@ -2,7 +2,7 @@ using System.Security.Claims;
 using KokkunLMS.Application.Features.Users.Commands;
 using KokkunLMS.Application.Features.Users.Queries;
 using KokkunLMS.Shared.DTOs;
-using KokkunLMS.Shared.DTOs.Users;
+using KokkunLMS.Shared.DTOs.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +21,6 @@ public class UsersController : ControllerBase
         _mediator = mediator;
     }
 
-    private int GetUserId() =>
-        int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-
     /// <summary>
     /// Create a new user (Admin only).
     /// </summary>
@@ -32,26 +29,10 @@ public class UsersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<int>), 200)]
     [ProducesResponseType(typeof(ApiErrorResponse), 400)]
     [ProducesResponseType(typeof(ApiErrorResponse), 409)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
+    public async Task<IActionResult> CreateUser([FromForm] CreateUserCommand command)
     {
         var userId = await _mediator.Send(command);
         return Ok(ApiResponse<int>.Ok(userId, "User created successfully."));
-    }
-
-    /// <summary>
-    /// Add a student to the logged-in parent account.
-    /// </summary>
-    [HttpPost("children/register")]
-    [Authorize(Roles = "parent")]
-    [ProducesResponseType(typeof(ApiResponse<int>), 200)]
-    [ProducesResponseType(typeof(ApiErrorResponse), 400)]
-    public async Task<IActionResult> AddChildToParent([FromBody] AddChildToParentCommand command)
-    {
-        var parentId = GetUserId();
-        var fullCommand = command with { ParentId = parentId };
-
-        var studentId = await _mediator.Send(fullCommand);
-        return Ok(ApiResponse<int>.Ok(studentId, "Child added successfully."));
     }
 
     /// <summary>
@@ -61,11 +42,10 @@ public class UsersController : ControllerBase
     [Authorize(Roles = "administrator")]
     [ProducesResponseType(typeof(ApiResponse<string>), 200)]
     [ProducesResponseType(typeof(ApiErrorResponse), 400)]
-    public async Task<IActionResult> UpdateUser(int userId, [FromBody] UpdateUserCommand command)
+    public async Task<IActionResult> UpdateUser(int userId, [FromForm] UpdateUserCommand command)
     {
-        var cmd = command with { UserId = userId };
-
-        var updated = await _mediator.Send(cmd);
+        command.UserId = userId;
+        var updated = await _mediator.Send(command);
         return updated
             ? Ok(ApiResponse<string>.WithMessage("User updated successfully."))
             : BadRequest(new ApiErrorResponse { Error = "Failed to update user." });
@@ -78,12 +58,9 @@ public class UsersController : ControllerBase
     [Authorize]
     [ProducesResponseType(typeof(ApiResponse<string>), 200)]
     [ProducesResponseType(typeof(ApiErrorResponse), 400)]
-    public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileCommand command)
+    public async Task<IActionResult> UpdateProfile([FromForm] UpdateUserProfileCommand command)
     {
-        var userId = GetUserId();
-        var cmd = command with { UserId = userId };
-
-        var updated = await _mediator.Send(cmd);
+        var updated = await _mediator.Send(command);
         return updated
             ? Ok(ApiResponse<string>.WithMessage("Profile updated successfully."))
             : BadRequest(new ApiErrorResponse { Error = "Update failed." });
@@ -92,10 +69,7 @@ public class UsersController : ControllerBase
     [Authorize]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
     {
-        var userId = GetUserId();
-        var cmd = command with { UserId = userId };
-
-        var success = await _mediator.Send(cmd);
+        var success = await _mediator.Send(command);
         return success
             ? Ok(ApiResponse<string>.WithMessage("Password changed successfully."))
             : BadRequest(new ApiErrorResponse { Error = "Password change failed." });
